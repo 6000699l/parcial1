@@ -9,14 +9,35 @@
             return document.getElementById(id).value;
         }
 
+        function convertiranumtrasformaciones(arreglo, lim) {
+
+            var arrs = arreglo.split(lim);
+            arrn =[];
+            var v = arrs[0].split(" ")
+            alert(v)
+            arrs[0]= v[1]
+            arrs.forEach((elem) => {
+                arrn.push(Number(elem))
+            });
+            arrn[3]=v[0]
+            return arrn;
+        }
+
         function convertiranum(arreglo, lim) {
             var arrs = arreglo.split(lim);
             arrn =[];
             arrs.forEach((elem) => {
                 arrn.push(Number(elem))
             });
-            
             return arrn;
+        }
+
+        function convertiraradianes(arreglo){
+            var radianes =[];
+            for(var i =0;i<3; i++){
+                radianes[i]=arreglo[i]*(Math.PI / 180);
+            }
+            return radianes
         }
 
         function suma(array1, vector) {
@@ -25,23 +46,60 @@
             });
         }
 
-        function multiplicar(array, vector){
+        function multiplicar(array1, vector){
             return array1.map(function(num, idx){
                 return num * vector[idx]
             });
         }
 
+        function rotar(array1,angulo)
+        {
+            var rad=convertiraradianes(angulo)
+            alert(rad)
+            var arr2 = [];
+            arr2[0] = (array1[0] * Math.cos(radianes[0]) - array1[1] * Math.sin(radianes[0])).toFixed(2);
+            arr2[1] = (array1[0] * Math.sin(radianes[0]) + array1[1] * Math.cos(radianes[0])).toFixed(2);
+            arr2[2]= arra1[2];
+        }
+
+
         function procesar(){
             punto1 = convertiranum(byId("p1"), ",")
             punto2 = convertiranum(byId("p2"), ",")
-            transformacionInicial = convertiranum(byId("ti"), ",")
-            transformacionFinal = convertiranum(byId("tf"), ",")
+            transformacionInicial = convertiranumtrasformaciones(byId("ti"), ",")
+            transformacionFinal = convertiranumtrasformaciones(byId("tf"), ",")
             if(transformacionInicial[3]=="R"){
                 alert("rotacion")
-
+                punto1 = rotar(punto1,transformacionInicial)
+                punto2 = rotar(punto2,transformacionInicial)
+            }if(transformacionInicial[3]=="S") {
+                alert("escalado")
+                punto1 = multiplicar(punto1,transformacionInicial)
+                punto2 = multiplicar(punto2,transformacionInicial)
+            }if(transformacionInicial[3]=="T") {
+                alert("traslacion")
+                punto1 = suma(punto1,transformacionInicial)
+                punto2 = suma(punto2,transformacionInicial)
+            }else{
+                alert("ingresa una letra valida : T, S, R")
             }
-            alert(transformacionInicial)
-            
+            if(transformacionFinal[3]=="R"){
+                alert("rotacion")
+                punto1 = rotar(punto1,transformacionFinal)
+                punto2 = rotar(punto2,transformacionFinal)
+            }if(transformacionFinal[3]=="S") {
+                alert("escalado")
+                punto1 = multiplicar(punto1,transformacionFinal)
+                punto2 = multiplicar(punto2,transformacionFinal)
+            }if(transformacionFinal[3]=="T") {
+                alert("traslacion")
+                punto1 = suma(punto1,transformacionFinal)
+                punto2 = suma(punto2,transformacionFinal)
+            }else{
+                alert("ingresa una letra valida : T, S, R")
+            }
+            document.getElementById("rp1").value =punto1;
+            document.getElementById("rp2").value =punto2;
         }
 
 
