@@ -53,57 +53,42 @@
 
         function rotar(array1,angulo)
         {
-            var rad=convertiraradianes(angulo)
+            var radianes=convertiraradianes(angulo)
             var arr2 = [];
-            // T/-1*rx/-1(a)*ry/-1(b)*rz(c)*ry(b*rx(a))
-            //rotar en z
-            arr2[0] = (array1[0] * Math.cos(rad[2]) - array1[1] * Math.sin(rad[2])).toFixed(2);
-            arr2[1] = (array1[0] * Math.sin(rad[2]) + array1[1] * Math.cos(rad[2])).toFixed(2);
-            arr2[2]= array1[2];
-            //rotar en y 
-            var arr1 = [];
-            arr1[0] = (array1[0] * Math.cos(rad[1]) + array1[2] * Math.sin(rad[1])).toFixed(2);
-            arr1[2] = (array1[2] * Math.cos(rad[1]) - array1[0] * Math.sin(rad[1])).toFixed(2);
-            arr1[1]= array1[1];
-            //rotar en x 
-            var arr0 = [];
-            arr1[0] = (array1[0] * Math.cos(rad[0]) + array1[2] * Math.sin(rad[0])).toFixed(2);
-            arr1[2] = (array1[2] * Math.cos(rad[0]) - array1[0] * Math.sin(rad[0])).toFixed(2);
-            arr1[1]= array1[1];
+            arr2[0] = (array1[0] * Math.cos(radianes[0]) - array1[1] * Math.sin(radianes[0])).toFixed(1);
+            arr2[1] = (array1[0] * Math.sin(radianes[0]) + array1[1] * Math.cos(radianes[0])).toFixed(1);
+            arr2[2] = array1[2];
 
             return arr2;
         }
 
+        function realizartransformacion(punto,vector){
+            if(vector[3]=="R"){
+                punto = rotar(punto,vector)
+            }if(vector[3]=="S") {
+                if (punto[3] != false)
+                {
+                    punto = multiplicar(punto,vector)   
+                }
+            }if(vector[3]=="T") {
+                punto = suma(punto,vector)
+            }
+            return punto
+        }
+
+
 
         function procesar(){
             punto1 = convertiranum(byId("p1"), ",")
+            punto1[3]= false;
             punto2 = convertiranum(byId("p2"), ",")
             transformacionInicial = convertiranumtrasformaciones(byId("ti"), ",")
             transformacionFinal = convertiranumtrasformaciones(byId("tf"), ",")
-            if(transformacionInicial[3]=="R"){
-                punto1 = rotar(punto1,transformacionInicial)
-                punto2 = rotar(punto2,transformacionInicial)
-            }if(transformacionInicial[3]=="S") {
-                punto1 = multiplicar(punto1,transformacionInicial)
-                punto2 = multiplicar(punto2,transformacionInicial)
-            }if(transformacionInicial[3]=="T") {
-                punto1 = suma(punto1,transformacionInicial)
-                punto2 = suma(punto2,transformacionInicial)
-            }else{
-                alert("ingresa una letra valida : T, S, R")
-            }
-            if(transformacionFinal[3]=="R"){
-                punto1 = rotar(punto1,transformacionFinal)
-                punto2 = rotar(punto2,transformacionFinal)
-            }if(transformacionFinal[3]=="S") {
-                punto1 = multiplicar(punto1,transformacionFinal)
-                punto2 = multiplicar(punto2,transformacionFinal)
-            }if(transformacionFinal[3]=="T") {
-                punto1 = suma(punto1,transformacionFinal)
-                punto2 = suma(punto2,transformacionFinal)
-            }else{
-                alert("ingresa una letra valida : T, S, R")
-            }
+            punto1 = realizartransformacion(punto1,transformacionInicial)
+            punto2 = realizartransformacion(punto2,transformacionInicial)
+            punto1 = realizartransformacion(punto1,transformacionFinal)
+            punto2 = realizartransformacion(punto2,transformacionFinal)
+            punto1[3]= null
             document.getElementById("rp1").value =punto1;
             document.getElementById("rp2").value =punto2;
         }
@@ -124,7 +109,7 @@
         <input id="tf" size="10"> 
     </p>
     <p> vector resultado p1,  
-        <input id="rp1" size="10"> , p2,  <input id="rp2" size="10">  
+        <input id="rp1" size="20"> , p2,  <input id="rp2" size="20">  
     </p>
     <button id="btn" onclick="procesar()">procesar</button></p>
 
