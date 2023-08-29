@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+         function byId(id) {
+            return document.getElementById(id).value;
+        }
+
+        function convertiranum(arreglo, lim) {
+            var arrs = arreglo.split(lim);
+            arrn =[];
+            arrs.forEach((elem) => {
+                arrn.push(Number(elem))
+            });
+            
+            return arrn;
+        }
+
+        function suma(array1, vector) {
+            return array1.map(function(num, idx){
+                return num + vector[idx]
+            });
+        }
+
+        function multiplicar(array, vector){
+            return array1.map(function(num, idx){
+                return num * vector[idx]
+            });
+        }
+
+        function procesar(){
+            punto1 = convertiranum(byId("p1"), ",")
+            punto2 = convertiranum(byId("p2"), ",")
+            transformacionInicial = convertiranum(byId("ti"), ",")
+            transformacionFinal = convertiranum(byId("tf"), ",")
+            if(transformacionInicial[3]=="R"){
+                alert("rotacion")
+
+            }
+            alert(transformacionInicial)
+            
+        }
+
+
+
+    </script>
+</head>
+<body>
+    <h1> Transformaciones conjuntas</h1>
+    <p> vector para la transformacion => p1, 
+        <input id="p1" size="10"> ,p2,  <input id="p2" size="10"> 
+    </p>
+    <p> Transformacion inicial
+        <input id="ti" size="10"> 
+    </p>
+    <p> Transformacion final
+        <input id="tf" size="10"> 
+    </p>
+    <p> vector resultado p1,  
+        <input id="rp1" size="10"> , p2,  <input id="rp2" size="10">  
+    </p>
+    <button id="btn" onclick="procesar()">procesar</button></p>
+
+</body>
+</html>
